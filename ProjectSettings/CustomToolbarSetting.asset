@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 61
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cba83c97554327b25238d32fd85c62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _elements:
+  - rid: 2514081262485110789
+  - rid: 2514081262485110792
+  - rid: 2514081262485110793
+  - rid: 2514081262485110785
+  - rid: 2514081262485110786
+  - rid: 2514081262485110788
+  - rid: 2514081262485110787
+  - rid: 2514081262485110790
+  - rid: 2514081262485110791
+  - rid: 2514081262485110794
+  - rid: 2514081262485110795
+  - rid: 2514081262485110796
+  - rid: 2514081262485110797
+  - rid: 2514081262485110798
+  - rid: 2514081262485110799
+  - rid: 2514081262485110784
+  references:
+    version: 2
+    RefIds:
+    - rid: 2514081262485110784
+      type: {class: ToolbarEnterPlayMode, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 100
+    - rid: 2514081262485110785
+      type: {class: ToolbarSceneSelection, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 1
+        WidthInToolbar: 150
+        showSceneFolder: 1
+    - rid: 2514081262485110786
+      type: {class: ToolbarSpace, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 1
+        WidthInToolbar: 10
+    - rid: 2514081262485110787
+      type: {class: ToolbarSavingPrefs, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 100
+    - rid: 2514081262485110788
+      type: {class: ToolbarClearPrefs, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 1
+        WidthInToolbar: 100
+    - rid: 2514081262485110789
+      type: {class: ToolbarSpace, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 10
+    - rid: 2514081262485110790
+      type: {class: ToolbarReloadScene, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 100
+    - rid: 2514081262485110791
+      type: {class: ToolbarStartFromFirstScene, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 100
+    - rid: 2514081262485110792
+      type: {class: ToolbarSpace, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 10
+    - rid: 2514081262485110793
+      type: {class: ToolbarSides, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 100
+    - rid: 2514081262485110794
+      type: {class: ToolbarTimeslider, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 200
+        minTime: 0
+        maxTime: 10
+    - rid: 2514081262485110795
+      type: {class: ToolbarFPSSlider, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 200
+        minFPS: 1
+        maxFPS: 120
+    - rid: 2514081262485110796
+      type: {class: ToolbarSpace, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 10
+    - rid: 2514081262485110797
+      type: {class: ToolbarRecompile, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 100
+    - rid: 2514081262485110798
+      type: {class: ToolbarReserializeSelected, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 100
+    - rid: 2514081262485110799
+      type: {class: ToolbarReserializeAll, ns: , asm: CustomToolbar.Editor}
+      data:
+        IsEnabled: 0
+        WidthInToolbar: 100

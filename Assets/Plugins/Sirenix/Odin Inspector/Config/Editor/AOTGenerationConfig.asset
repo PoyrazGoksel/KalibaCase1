@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1726182683, guid: a4865f1ab4504ed8a368670db22f409c, type: 3}
+  m_Name: AOTGenerationConfig
+  m_EditorClassIdentifier: 
+  automateBeforeBuilds: 0
+  deleteDllAfterBuilds: 1
+  AutomateForAllAOTPlatforms: 1
+  automateForPlatforms: 0900000014000000
+  lastScan: 638353373440334205
+  supportSerializedTypes:
+  - TypeName: System.Boolean, mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Boolean[,], mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.Dictionary`2[[Components.Main.Grid+Corner,
+      Assembly-CSharp],[UnityEngine.Vector3, UnityEngine.CoreModule]], mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.EnumEqualityComparer`1[[Components.Main.Grid+Corner,
+      Assembly-CSharp]], mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Single, mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: UnityEngine.GameObject, UnityEngine.CoreModule
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Components.Main.Grid+Corner, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Datas.Levels.GridAccess, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.IEqualityComparer`1[[Components.Main.Grid+Corner,
+      Assembly-CSharp]], mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Int32, mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Datas.Levels.LevelData, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]],
+      mscorlib
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Components.Main.Grids.GridPathFinder.NavigationPlane, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Components.Main.Grids.GridPathFinder.NavNode[,], Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Components.Main.Grids.GridPathFinder.PathFinder, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: UnityEngine.Texture2D, UnityEngine.CoreModule
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Components.Main.Grids.Tile, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Components.Main.Grids.Tile[,], Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Datas.Levels.TileData, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Datas.Levels.TileData[,], Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: Datas.Levels.TileItemData, Assembly-CSharp
+    IsCustom: 0
+    Emit: 1
+  - TypeName: UnityEngine.Transform, UnityEngine.CoreModule
+    IsCustom: 0
+    Emit: 1
+  - TypeName: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    IsCustom: 0
+    Emit: 1
+  - TypeName: UnityEngine.Vector3, UnityEngine.CoreModule
+    IsCustom: 0
+    Emit: 1
