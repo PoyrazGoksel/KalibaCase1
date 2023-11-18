@@ -25,35 +25,6 @@ namespace Datas.Levels
         
         TileData[,] IGridAccessEditor.GridDataClone => (TileData[,])_tileGridData.Clone();
 
-        private void HandleDrag(Rect tileRect)
-        {
-            // Drag and drop logic here
-            Event evt = Event.current;
-
-            switch (evt.type) {
-                case EventType.DragUpdated:
-                case EventType.DragPerform:
-                    if (!tileRect.Contains(evt.mousePosition))
-                        break;
-
-                    DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-
-                    if (evt.type == EventType.DragPerform) {
-                        DragAndDrop.AcceptDrag();
-                        string asdf = "";
-                        foreach (Object draggedObject in DragAndDrop.objectReferences) {
-                            
-                            // Handle the dragged object
-                            // Example: Ad to the items list if it's a TileItemData
-                            asdf += draggedObject.name;
-                        }
-
-                        Debug.LogWarning(asdf);
-                    }
-                    break;
-            }
-        }
-        
         private TileData DrawGridPreview(Rect tileRect, TileData tile)
         {
             const int refTileRectSize = 64;
@@ -105,8 +76,6 @@ namespace Datas.Levels
                         return tile;
                     }
 
-                    HandleDrag(tileRect);
-                    
                     if (tile.TileItemData != null && tile.TileItemData.Coord == tile.Coord)
                     {
                         if (crossButRect.Contains(Event.current.mousePosition))

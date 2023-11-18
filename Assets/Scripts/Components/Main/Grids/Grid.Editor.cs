@@ -255,7 +255,7 @@ namespace Components.Main.Grids
             for (int y = 0; y < gridSize[1]; y ++)
             {
                 TileData tileData = _tileData[x, y];
-                Vector3 tilePosition = new(x * tileSize, 0, y * tileSize);
+                Vector3 tilePosition = new(x * tileSize, 0, (gridSize[1] - 1 - y) * tileSize);
 
                 GameObject newTileGo = (GameObject)PrefabUtility.InstantiatePrefab
                 (tileData.Prefab, gameObject.scene);

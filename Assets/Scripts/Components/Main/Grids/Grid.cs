@@ -90,7 +90,7 @@ namespace Components.Main.Grids
             for (int y = 0; y < sizes[1]; y ++)
             {
                 TileData tileData = _tileData[x, y];
-                Vector3 tilePosition = new(x * tileSize, 0, y * tileSize);
+                Vector3 tilePosition = new(x * tileSize, 0, (sizes[1] - 1 - y) * tileSize);
 
                 GameObject newTileGo = GridInternalEvents.InstantiatePrefab?.Invoke
                 (tileData.Prefab);

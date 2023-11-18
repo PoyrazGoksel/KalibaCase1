@@ -23,9 +23,9 @@ namespace Components.Main.Grids
         public static readonly Vector2Int GridDown = new(-1, 0);
         public static readonly Vector2Int GridLeft = new(0, 1);
         private static readonly Vector3 gridWorldRotUp = new(0f, 0f, 0f);
-        private static readonly Vector3 gridWorldRotRight = new(0f, 90f, 0f);
+        private static readonly Vector3 gridWorldRotRight = new(0f, 270f, 0f);
         private static readonly Vector3 gridWorldRotDown = new(0, 180f, 0f);
-        private static readonly Vector3 gridWorldRotLeft = new(0f, 270f, 0f);
+        private static readonly Vector3 gridWorldRotLeft = new(0f, 90f, 0f);
         public static int GetRotAxisIndexSign(GridRot newGridRot)
         {
             return newGridRot switch
