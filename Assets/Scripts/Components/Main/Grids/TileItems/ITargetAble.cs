@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Components.Main.Grids.GridPathFinder;
+using UnityEngine;
 
 namespace Components.Main.Grids.TileItems
 {
     public interface ITargetAble
     {
-        void Target();
-
-        Vector2Int GridCoord { get; }
+        Vector2Int Target();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Components.Main.Grids.TileItems;
+using Components.Main.Grids.TileItems.Cars;
 using Events.External;
 using Extensions.Unity;
 using Extensions.Unity.MonoHelper;
@@ -33,24 +34,42 @@ namespace Components.Main
                 {
                     if (raycastHit.transform.TryGetComponent(out ISelectable selectable))
                     {
-                        selectable.Select();
-                        _selected = selectable;
+                        SetSelected(selectable);
                     }
-                    else if (raycastHit.transform.TryGetComponent(out ITargetAble targetAble))
+                    else if (_selected != null && raycastHit.transform.TryGetComponent(out ITargetAbleCar targetAbleCar))
                     {
-                        if (_selected != null)
-                        {
-                            targetAble.Target();
-                            _selected.SetDest(targetAble.GridCoord);
-                        }
+                        targetAbleCar.Target();
+                        _selected.SetTarget(targetAbleCar.Target(), targetAbleCar.TileItemColor, targetAbleCar.GetDoors());
+                        ConsumeSelected();
                     }
-                    else
+                    else if (_selected != null && raycastHit.transform.TryGetComponent(out ITargetAble targetAble))
                     {
-                        _selected = null;
+                        _selected.SetDest(targetAble.Target());
+                        ConsumeSelected();
+                    }
+                    else if (raycastHit.transform.TryGetComponent(out IClickAble clickAble))
+                    {
+                        clickAble.OnClick();
                     }
                 }
-                
+                else
+                {
+                    ConsumeSelected();
+                }
             }
+        }
+
+        private void SetSelected(ISelectable selectable)
+        {
+            _selected = selectable;
+
+            _selected?.Select();
+        }
+
+        private void ConsumeSelected()
+        {
+            _selected?.DeSelect();
+            _selected = null;
         }
 
         protected override void RegisterEvents()
@@ -58,6 +77,13 @@ namespace Components.Main
             CameraEvents.CameraStarted += OnCameraStarted;
             GridEvents.TileItemMoveStart += OnTileItemMoveStart;
             GridEvents.TileItemMoveEnd += OnTileItemMoveEnd;
+            GridEvents.TileItemRemove += OnTileItemRemove;
+        }
+
+        private void OnCameraStarted(Camera arg0)
+        {
+            _sceneCam = arg0;
+            _inputListenerRoutine.StartCoroutine();
         }
 
         private void OnTileItemMoveStart(TileItem tileItem)
@@ -70,10 +96,9 @@ namespace Components.Main
             _inputListenerRoutine.SetPaused(false);
         }
 
-        private void OnCameraStarted(Camera arg0)
+        private void OnTileItemRemove(TileItem arg0)
         {
-            _sceneCam = arg0;
-            _inputListenerRoutine.StartCoroutine();
+            _inputListenerRoutine.SetPaused(false);
         }
 
         protected override void UnRegisterEvents()
@@ -81,6 +106,7 @@ namespace Components.Main
             CameraEvents.CameraStarted -= OnCameraStarted;
             GridEvents.TileItemMoveStart -= OnTileItemMoveStart;
             GridEvents.TileItemMoveEnd -= OnTileItemMoveEnd;
+            GridEvents.TileItemRemove -= OnTileItemRemove;
         }
     }
 }

@@ -120,18 +120,11 @@ namespace Components.Main.Grids.GridPathFinder
             }
         }
 
-        private void RegisterEvents()
+        public List<(Vector3, Vector2Int)> SetDest(Vector2Int from, Vector2Int to)
         {
-            GridEvents.GridStarted += OnGridStarted;
-            GridAgentEvents.DestinationSet += OnDestinationsSet;
-        }
+            if (_isWalking) return null;
 
-        private void OnDestinationsSet(Vector2Int arg0, Vector2Int arg1)
-        {
-            if (_isWalking) return;
-
-            _activePath = _myPathFinder.FindPath(arg0, arg1);
-            GridAgentEvents.PathCalculated?.Invoke(_activePath);
+            _activePath = _myPathFinder.FindPath(from, to);
 
             if (_activePath is {Count: > 0})
             {
@@ -140,6 +133,20 @@ namespace Components.Main.Grids.GridPathFinder
                 _currentWayPoint = _activePath[0];
                 _walkRoutine.StartCoroutine();
             }
+
+            return _activePath;
+        }
+        
+        public bool CanSetDest(Vector2Int arg0, Vector2Int arg1)
+        {
+            if (_isWalking) return false;
+
+            return _myPathFinder.FindPath(arg0, arg1) != null;
+        }
+
+        private void RegisterEvents()
+        {
+            GridEvents.GridStarted += OnGridStarted;
         }
 
         private void OnGridStarted(INavNode[,] navGrid)
@@ -150,7 +157,6 @@ namespace Components.Main.Grids.GridPathFinder
         private void UnRegisterEvents()
         {
             GridEvents.GridStarted -= OnGridStarted;
-            GridAgentEvents.DestinationSet -= OnDestinationsSet;
         }
     }
 

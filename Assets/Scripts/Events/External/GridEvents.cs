@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using Components.Main.Grids;
 using Components.Main.Grids.GridPathFinder;
 using Components.Main.Grids.TileItems;
 using Datas.Levels;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Events.External
 {
+    [UsedImplicitly]
     public class GridEvents
     {
         public UnityAction<INavNode[,]> GridStarted;
@@ -15,6 +18,8 @@ namespace Events.External
         public Func<TileItemTrans, CarPathResult> GetCarPath;
         public UnityAction<TileItem> TileItemMoveStart;
         public UnityAction<TileItem> TileItemMoveEnd;
+        public UnityAction<TileItem> TileItemRemove;
+        public Func<TileItem, List<INavNode>> GetBorderNavTiles;
         public readonly struct CarPathResult
         {
             public readonly INavNode NavNode;

@@ -224,32 +224,6 @@ namespace Components.Main.Grids
             return true;
         }
 
-
-
-        public static Vector3 GridWorldRight(GridRot gridRot)
-        {
-            int axisIndex = GetRotAxisIndex(gridRot);
-            int axisIndexSign = GetRotAxisIndexSign(gridRot);
-            Vector2Int gFwd = Vector2Int.zero;
-            gFwd[axisIndex] += axisIndexSign;
-            Vector3 wFwd = ToWorldVector(gFwd);
-            wFwd = new Vector3(wFwd.z, 0f, wFwd.x);
-            return wFwd;
-        }
-
-        public static int GetCrossAxisGrid(int axisIndex)
-        {
-            return (axisIndex + 2) % 2;
-        }
-
-        public static Vector3 ToWorldVector(Vector2Int vector2Int)
-        {
-            Vector3 toWorldVector = Vector3.zero;
-            toWorldVector[UpWorldAxisIndex] = vector2Int.y;
-            toWorldVector[RightWorldAxisIndex] = vector2Int.x;
-            return toWorldVector;
-        }
-
         public static bool IsBorderTile(Vector2Int coord, Vector2Int gridSize)
         {
             return (coord.x == 0 || coord.x == gridSize.x - 1) && (coord.y == 0 || coord.y == gridSize.y - 1);
@@ -272,6 +246,10 @@ namespace Components.Main.Grids
 
             return tileItemPivot;
         }
+
+        public static Vector2Int GetRotatedSize
+        (TileItem tileItem) =>
+        GetRotatedSize(tileItem.GridRotation, tileItem.GridSize);
         
         public static Vector2Int GetRotatedSize(GridRot gridRot, int tileItemSize)
         {
@@ -292,9 +270,9 @@ namespace Components.Main.Grids
             return fromDirAxisSign.Sign() != axisSize.Sign() ? Mathf.Abs(axisSize) : 0;
         }
 
-        public static Vector3 PerpVect2D(Vector3 forward)
+        public static int GetPerpAxisIndex2D(int axisIndex)
         {
-            return new Vector3(forward.z, 0f, forward.x);
+            return Mathf.Abs(axisIndex - 1);
         }
     }
 }

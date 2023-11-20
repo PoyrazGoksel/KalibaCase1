@@ -18,9 +18,9 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 6972833411362247378, guid: 725a11f16851de94da3bb7270cb2d0dd, type: 3}
     - {fileID: 2730035215191550770, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
+    - {fileID: 4257470898365378916, guid: ce986442537260e499dcf4cac5d16fd3, type: 3}
     - {fileID: 7201244933968230742, guid: 7884afaf8d2dc9a40b4a6c939dd6757f, type: 3}
-    - {fileID: 8714401471508441506, guid: 6977f96e252b80540848ccfb3ded74c1, type: 3}
-    - {fileID: 8708391665386040614, guid: 3081f4e42af6f5d48968ea022056dbca, type: 3}
+    - {fileID: 645387953997947634, guid: fa304c328178cc34e89a2b4d22793eae, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -31,10 +31,10 @@ MonoBehaviour:
       Data: 0|Datas.Levels.TileData[,], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 25
+      Data: 30
     - Name: ranks
       Entry: 1
-      Data: 5|5
+      Data: 5|6
     - Name: 
       Entry: 7
       Data: 1|Datas.Levels.TileData, Assembly-CSharp
@@ -76,7 +76,7 @@ MonoBehaviour:
       Data: 0
     - Name: _size
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -132,7 +132,31 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 6
+      Entry: 7
+      Data: 5|Datas.Levels.TileItemData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 1
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _gridRotation
+      Entry: 3
+      Data: 0
+    - Name: _size
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
       Data: 
     - Name: OverlappingTileItemData
       Entry: 6
@@ -142,7 +166,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 5|Datas.Levels.TileData, Assembly-CSharp
+      Data: 6|Datas.Levels.TileData, Assembly-CSharp
     - Name: _prefab
       Entry: 10
       Data: 0
@@ -159,7 +183,31 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 6
+      Entry: 7
+      Data: 7|Datas.Levels.TileItemData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 2
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _gridRotation
+      Entry: 3
+      Data: 0
+    - Name: _size
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
       Data: 
     - Name: OverlappingTileItemData
       Entry: 6
@@ -169,7 +217,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 6|Datas.Levels.TileData, Assembly-CSharp
+      Data: 8|Datas.Levels.TileData, Assembly-CSharp
     - Name: _prefab
       Entry: 10
       Data: 0
@@ -196,7 +244,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 7|Datas.Levels.TileData, Assembly-CSharp
+      Data: 9|Datas.Levels.TileData, Assembly-CSharp
     - Name: _prefab
       Entry: 10
       Data: 0
@@ -205,66 +253,15 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 3
-      Data: 0
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
       Entry: 6
-      Data: 
-    - Name: OverlappingTileItemData
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 8|Datas.Levels.TileData, Assembly-CSharp
-    - Name: _prefab
-      Entry: 10
-      Data: 0
-    - Name: _coord
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _tileItemData
-      Entry: 7
-      Data: 9|Datas.Levels.TileItemData, Assembly-CSharp
-    - Name: _prefab
-      Entry: 10
-      Data: 2
-    - Name: _coord
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _gridRotation
-      Entry: 3
-      Data: 0
-    - Name: _size
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 8
       Data: 
     - Name: OverlappingTileItemData
       Entry: 6
@@ -286,13 +283,13 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 3
-      Data: 2
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 2
     - Name: OverlappingTileItemData
       Entry: 6
       Data: 
@@ -313,7 +310,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 3
-      Data: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -340,16 +337,25 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 3
-      Data: 4
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
+      Entry: 9
+      Data: 5
+    - Name: OverlappingTileItemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 7
-      Data: 13|Datas.Levels.TileItemData, Assembly-CSharp
+      Data: 13|Datas.Levels.TileData, Assembly-CSharp
     - Name: _prefab
       Entry: 10
-      Data: 3
+      Data: 0
     - Name: _coord
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
@@ -358,18 +364,12 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 3
-      Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _gridRotation
-      Entry: 3
-      Data: 0
-    - Name: _size
-      Entry: 3
       Data: 3
     - Name: 
       Entry: 8
+      Data: 
+    - Name: _tileItemData
+      Entry: 6
       Data: 
     - Name: OverlappingTileItemData
       Entry: 6
@@ -388,39 +388,42 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 3
-      Data: 0
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
+      Entry: 6
+      Data: 
+    - Name: OverlappingTileItemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 7
-      Data: 15|Datas.Levels.TileItemData, Assembly-CSharp
+      Data: 15|Datas.Levels.TileData, Assembly-CSharp
     - Name: _prefab
       Entry: 10
-      Data: 1
+      Data: 0
     - Name: _coord
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 3
-      Data: 0
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
-    - Name: _gridRotation
-      Entry: 3
-      Data: 0
-    - Name: _size
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
+    - Name: _tileItemData
+      Entry: 6
       Data: 
     - Name: OverlappingTileItemData
       Entry: 6
@@ -442,13 +445,13 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 9
-      Data: 9
+      Entry: 6
+      Data: 
     - Name: OverlappingTileItemData
       Entry: 6
       Data: 
@@ -469,25 +472,16 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 3
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 6
-      Data: 
-    - Name: OverlappingTileItemData
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 7
-      Data: 18|Datas.Levels.TileData, Assembly-CSharp
+      Data: 18|Datas.Levels.TileItemData, Assembly-CSharp
     - Name: _prefab
       Entry: 10
-      Data: 0
+      Data: 2
     - Name: _coord
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
@@ -496,25 +490,7 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 3
-      Data: 3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _tileItemData
-      Entry: 7
-      Data: 19|Datas.Levels.TileItemData, Assembly-CSharp
-    - Name: _prefab
-      Entry: 10
-      Data: 4
-    - Name: _coord
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 3
-      Data: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -526,6 +502,33 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 8
+      Data: 
+    - Name: OverlappingTileItemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 19|Datas.Levels.TileData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 0
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _tileItemData
+      Entry: 6
       Data: 
     - Name: OverlappingTileItemData
       Entry: 6
@@ -547,39 +550,36 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 3
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 9
-      Data: 13
-    - Name: OverlappingTileItemData
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 7
-      Data: 21|Datas.Levels.TileData, Assembly-CSharp
+      Data: 21|Datas.Levels.TileItemData, Assembly-CSharp
     - Name: _prefab
       Entry: 10
-      Data: 0
+      Data: 3
     - Name: _coord
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 3
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
-    - Name: _tileItemData
-      Entry: 6
+    - Name: _gridRotation
+      Entry: 3
+      Data: 3
+    - Name: _size
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
       Data: 
     - Name: OverlappingTileItemData
       Entry: 6
@@ -598,16 +598,16 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 3
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 21
     - Name: OverlappingTileItemData
       Entry: 6
       Data: 
@@ -625,16 +625,16 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 3
-      Data: 2
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 21
     - Name: OverlappingTileItemData
       Entry: 6
       Data: 
@@ -655,25 +655,16 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 3
-      Data: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 6
-      Data: 
-    - Name: OverlappingTileItemData
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 7
-      Data: 25|Datas.Levels.TileData, Assembly-CSharp
+      Data: 25|Datas.Levels.TileItemData, Assembly-CSharp
     - Name: _prefab
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: _coord
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
@@ -682,13 +673,19 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 3
-      Data: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
-    - Name: _tileItemData
-      Entry: 9
-      Data: 13
+    - Name: _gridRotation
+      Entry: 3
+      Data: 3
+    - Name: _size
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: OverlappingTileItemData
       Entry: 6
       Data: 
@@ -706,16 +703,16 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 25
     - Name: OverlappingTileItemData
       Entry: 6
       Data: 
@@ -733,10 +730,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -760,10 +757,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 3
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -787,10 +784,88 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 3
       Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _tileItemData
+      Entry: 7
+      Data: 30|Datas.Levels.TileItemData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 4
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
       Data: 3
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _gridRotation
+      Entry: 3
+      Data: 3
+    - Name: _size
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OverlappingTileItemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 31|Datas.Levels.TileData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 0
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _tileItemData
+      Entry: 9
+      Data: 30
+    - Name: OverlappingTileItemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 32|Datas.Levels.TileData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 0
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -805,7 +880,136 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 30|Datas.Levels.TileData, Assembly-CSharp
+      Data: 33|Datas.Levels.TileData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 0
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _tileItemData
+      Entry: 7
+      Data: 34|Datas.Levels.TileItemData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 2
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _gridRotation
+      Entry: 3
+      Data: 0
+    - Name: _size
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OverlappingTileItemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 35|Datas.Levels.TileData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 0
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _tileItemData
+      Entry: 6
+      Data: 
+    - Name: OverlappingTileItemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 36|Datas.Levels.TileData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 0
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _tileItemData
+      Entry: 7
+      Data: 37|Datas.Levels.TileItemData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 2
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _gridRotation
+      Entry: 3
+      Data: 0
+    - Name: _size
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OverlappingTileItemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 38|Datas.Levels.TileData, Assembly-CSharp
     - Name: _prefab
       Entry: 10
       Data: 0
@@ -818,6 +1022,33 @@ MonoBehaviour:
     - Name: 
       Entry: 3
       Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _tileItemData
+      Entry: 6
+      Data: 
+    - Name: OverlappingTileItemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 39|Datas.Levels.TileData, Assembly-CSharp
+    - Name: _prefab
+      Entry: 10
+      Data: 0
+    - Name: _coord
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 5
     - Name: 
       Entry: 8
       Data: 

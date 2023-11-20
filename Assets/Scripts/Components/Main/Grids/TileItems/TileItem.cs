@@ -1,15 +1,18 @@
 ﻿using Extensions.Unity;
+using Extensions.Unity.MonoHelper;
 using UnityEngine;
 
 namespace Components.Main.Grids.TileItems
 {
-    public abstract class TileItem : MonoBehaviour, IGridTileItem
+    public abstract class TileItem : EventListenerMono, IGridTileItem
     {
         [SerializeField] protected Transform _myTransform;
         [SerializeField] private Vector3 _wPos;
         [SerializeField] private GridRot _gridRotation;
         [SerializeField] private Vector2Int _gridCoord;
         [SerializeField] private int _gridSize;
+        [SerializeField] private TileItemColor _tileItemColor;
+        public TileItemColor TileItemColor => _tileItemColor;
         
         public Vector2Int GridCoord => _gridCoord;
         public Vector3 WPos => _wPos;

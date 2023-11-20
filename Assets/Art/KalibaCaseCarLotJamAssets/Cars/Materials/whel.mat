@@ -71,9 +71,11 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnableOutLine: 0
+    - _EnableOutline: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
+    - _Int0: 0
     - _Limiter: 4.29
     - _Metallic: 0
     - _Mode: 0

@@ -1,32 +1,26 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Components.Main.Grids.GridPathFinder;
 using DG.Tweening;
 using Events.External;
 using Extensions.DoTween;
-using Extensions.Unity;
 using UnityEngine;
 using Zenject;
 
-namespace Components.Main.Grids.TileItems
+namespace Components.Main.Grids.TileItems.Cars
 {
-    public class Car : TileItem, ITargetAble, ITweenContainerBind, ISelectable
+    public class Car : TileItem, ITargetAbleCar, ITweenContainerBind, IClickAble
     {
-        private static readonly int mainTexColor = Shader.PropertyToID("_Color");
-        private static readonly int outLineColor = Shader.PropertyToID("_OutLineColor");
         private static readonly int enableOutline = Shader.PropertyToID("_EnableOutline");
-        private static readonly int outLineSize = Shader.PropertyToID("_OutlineSize");
-        
-        [SerializeField]private float WayPointReachDist = 0.1f;
-        [SerializeField]private float AccelerationLeanAngle = 15f;
-        [SerializeField]private AnimationCurve _accRiseEase;
-        [SerializeField]private AnimationCurve _accFallEase;
+        [SerializeField] private float AccelerationLeanAngle = 15f;
+        [SerializeField] private AnimationCurve _accRiseEase;
+        [SerializeField] private AnimationCurve _accFallEase;
         [SerializeField] private MeshRenderer[] _myMeshRenderer;
-        [SerializeField] private Transform _rearAxleTrans;
-        [SerializeField] private Transform _frontAxleTrans;
         [SerializeField] private float _moveSpeed = 10f;
         [SerializeField] private float _accelerationAnimHalfDur = 0.5f;
         [SerializeField] private Transform _bodyTrans;
         [SerializeField] private AnimationCurve _moveStartEase;
+        [SerializeField] private List<Door> _doorTransList;
         [Inject] private GridEvents GridEvents { get; set; }
         private Vector3 _bodyInitEul;
         private float _currSpeed;
@@ -34,34 +28,28 @@ namespace Components.Main.Grids.TileItems
         private Quaternion _initRot;
         private bool _isDriving;
         private MaterialPropertyBlock _lastMaterialPropertyBlock;
-        private Tween _selectionTween;
+        List<ICarDoor> ITargetAbleCar.GetDoors()
+        {
+            return _doorTransList.Select(e => e as ICarDoor).ToList();
+        }
+
         public ITweenContainer TweenContainer { get; set; }
+
+        private void Awake()
+        {
+            TweenContainer = TweenContain.Install(this);
+        }
 
         private void Start()
         {
             _bodyInitEul = _bodyTrans.eulerAngles;
         }
 
-        void ISelectable.Select()
+        void IClickAble.OnClick()
         {
             if (_isDriving) return;
-
-            foreach (MeshRenderer meshRenderer in _myMeshRenderer)
-            {
-                _lastMaterialPropertyBlock = new MaterialPropertyBlock();
-                meshRenderer.GetPropertyBlock(_lastMaterialPropertyBlock);
-                _selectionTween = DOVirtual.Float
-                (
-                    0.1f,
-                    0.05f,
-                    0.5f,
-                    delegate(float value)
-                    {
-                        _lastMaterialPropertyBlock.SetFloat(outLineSize, value);
-                        meshRenderer.SetPropertyBlock(_lastMaterialPropertyBlock);
-                    }
-                );
-            }
+            
+            ShowTempOutline();
 
             GridEvents.CarPathResult? carPathResult = GridEvents.GetCarPath?.Invoke(new GridEvents.TileItemTrans(this));
 
@@ -99,14 +87,45 @@ namespace Components.Main.Grids.TileItems
             }
         }
 
-        public void DeSelect()
+        List<INavNode> ITargetAbleCar.Target()
         {
-            if (_selectionTween.IsActive()) _selectionTween.Kill();
+            ShowTempOutline();
+            return GridEvents.GetBorderNavTiles?.Invoke(this);
         }
 
-        void ISelectable.SetDest(Vector2Int targetAbleGridCoord) {}
+        private void ShowOutline(bool isVisible)
+        {
+            int isVisInt = 0;
+            if (isVisible) isVisInt = 1;
 
-        public void Target() {}
+            foreach (MeshRenderer meshRenderer in _myMeshRenderer)
+            {
+                _lastMaterialPropertyBlock = new MaterialPropertyBlock();
+                meshRenderer.GetPropertyBlock(_lastMaterialPropertyBlock);
+                _lastMaterialPropertyBlock.SetInt(enableOutline, isVisInt);
+                meshRenderer.SetPropertyBlock(_lastMaterialPropertyBlock);
+            }
+        }
 
+        private void ShowTempOutline()
+        {
+            ShowOutline(true);
+
+            TweenContainer.AddTween = DOVirtual.DelayedCall
+            (
+                1f,
+                delegate
+                {
+                    ShowOutline(false);
+                }
+            );
+        }
+
+        protected override void RegisterEvents() {}
+
+        protected override void UnRegisterEvents()
+        {
+            TweenContainer.Clear();
+        }
     }
 }

@@ -31,6 +31,10 @@ namespace Components.Main.Grids
         [InlineEditor][OdinSerialize] private LevelData _levelData;
         [ShowIf("@false")][OdinSerialize] private Transform _myTrans;
         [ShowIf("@false")][OdinSerialize] private GameObject _roadCont;
+        [ShowIf("@false")]
+        [ReadOnly]
+        [OdinSerialize]
+        private Dictionary<Corner, Vector3> _roadRots = new();
 #if UNITY_EDITOR
         [TableMatrix
         (
@@ -46,10 +50,16 @@ namespace Components.Main.Grids
         [ShowIf("@false")][OdinSerialize] private GameObject road;
         [ShowIf("@false")][OdinSerialize] private GameObject roadCorner;
         [ShowIf("@false")][OdinSerialize] private GameObject roadT;
-        [ShowIf("@false")]
-        [ReadOnly]
-        [OdinSerialize]
-        private Dictionary<Corner, Vector3> _roadRots = new();
+
+        private void OnEnable()
+        {
+            RegisterEvents();
+        }
+
+        private void OnDisable()
+        {
+            UnRegisterEvents();
+        }
 
         private Tile DebugRuntimeGrid(Rect rect, Tile tile)
         {
@@ -64,16 +74,6 @@ namespace Components.Main.Grids
             }
 
             return tile;
-        }
-
-        private void OnEnable()
-        {
-            RegisterEvents();
-        }
-
-        private void OnDisable()
-        {
-            UnRegisterEvents();
         }
 
         private void CreateGridCopyPlayMode()
@@ -337,6 +337,65 @@ namespace Components.Main.Grids
             GridEvents.GetCarPath += GetCarPath;
             GridEvents.TileItemMoveStart += OnTileItemMoveStart;
             GridEvents.TileItemMoveEnd += OnTileItemMoveEnd;
+            GridEvents.GetBorderNavTiles += OnGetBorderNavTiles;
+            GridEvents.TileItemRemove += OnTileItemRemove;
+        }
+
+        private void OnTileItemRemove(TileItem arg0)
+        {
+            RemoveItemFromGrid(arg0);
+        }
+
+        private List<INavNode> OnGetBorderNavTiles(TileItem arg)
+        {//TODO:
+            List<INavNode> borderNavTiles = new();
+
+            Vector2Int rotatedGridSize = GridF.GetRotatedSize(arg);
+            int rotAxisIndex = GridF.GetRotAxisIndex(arg.GridRotation);
+            int rotAxisSign = GridF.GetRotAxisIndexSign(arg.GridRotation);
+
+            for (int i = 0; i < rotatedGridSize[rotAxisIndex]; i ++)
+            {
+                Vector2Int borderCoordLength = arg.GridCoord;
+                borderCoordLength[rotAxisIndex] += i * rotAxisSign;
+                
+                if (i == 0)
+                {
+                    borderCoordLength[rotAxisIndex] -= rotAxisSign;
+                    if (GridF.GridContainsCoord(borderCoordLength, _runtimeGrid.Size2Vect()))
+                    {
+                        borderNavTiles.Add(_runtimeGrid[borderCoordLength.x, borderCoordLength.y]);
+                    }
+                }
+                else if (i == rotatedGridSize[rotAxisIndex] - 1)
+                {
+                    borderCoordLength[rotAxisIndex] += rotAxisSign;
+
+                    if (GridF.GridContainsCoord(borderCoordLength, _runtimeGrid.Size2Vect()))
+                    {
+                        borderNavTiles.Add(_runtimeGrid[borderCoordLength.x, borderCoordLength.y]);
+                    }
+                }
+
+                Vector2Int borderCoordWidth1 = arg.GridCoord;
+                borderCoordWidth1[rotAxisIndex] += i * rotAxisSign;
+                Vector2Int borderCoordWidth2 = arg.GridCoord;
+                borderCoordWidth2[rotAxisIndex] += i * rotAxisSign;
+                borderCoordWidth1[GridF.GetPerpAxisIndex2D(rotAxisIndex)] -= 1;
+                borderCoordWidth2[GridF.GetPerpAxisIndex2D(rotAxisIndex)] += 1;
+                
+                if (GridF.GridContainsCoord(borderCoordWidth1, _runtimeGrid.Size2Vect()))
+                {
+                    borderNavTiles.Add(_runtimeGrid[borderCoordWidth1.x, borderCoordWidth1.y]);
+                }
+
+                if (GridF.GridContainsCoord(borderCoordWidth2, _runtimeGrid.Size2Vect()))
+                {
+                    borderNavTiles.Add(_runtimeGrid[borderCoordWidth2.x, borderCoordWidth2.y]);
+                }
+            }
+            
+            return borderNavTiles;
         }
 
         private void OnTileItemMoveEnd(TileItem arg0)
@@ -423,6 +482,8 @@ namespace Components.Main.Grids
             GridEvents.GetCarPath -= GetCarPath;
             GridEvents.TileItemMoveStart -= OnTileItemMoveStart;
             GridEvents.TileItemMoveEnd -= OnTileItemMoveEnd;
+            GridEvents.GetBorderNavTiles -= OnGetBorderNavTiles;
+            GridEvents.TileItemRemove -= OnTileItemRemove;
         }
     }
 }
