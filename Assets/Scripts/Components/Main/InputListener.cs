@@ -39,7 +39,7 @@ namespace Components.Main
                     else if (_selected != null && raycastHit.transform.TryGetComponent(out ITargetAbleCar targetAbleCar))
                     {
                         targetAbleCar.Target();
-                        _selected.SetTarget(targetAbleCar.Target(), targetAbleCar.TileItemColor, targetAbleCar.GetDoors());
+                        _selected.SetTarget(targetAbleCar.Target(), targetAbleCar.TileItemColor, targetAbleCar.GetDoors(), targetAbleCar);
                         ConsumeSelected();
                     }
                     else if (_selected != null && raycastHit.transform.TryGetComponent(out ITargetAble targetAble))

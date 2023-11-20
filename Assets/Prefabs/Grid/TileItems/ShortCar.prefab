@@ -27524,6 +27524,7 @@ MonoBehaviour:
   _doorTransList:
   - {fileID: 478335228624046217}
   - {fileID: 1377460589118031741}
+  _bodyRot: {x: 1, y: 0, z: 0}
 --- !u!4 &8260000459162035627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6698617693638191983, guid: defa538fcd350d442b8a1b1646c3f93a, type: 3}

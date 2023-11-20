@@ -40557,3 +40557,4 @@ MonoBehaviour:
   _doorTransList:
   - {fileID: 4760241159700545534}
   - {fileID: 6643733249842164852}
+  _bodyRot: {x: 1, y: 0, z: 0}

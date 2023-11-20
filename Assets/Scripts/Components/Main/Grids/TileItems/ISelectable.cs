@@ -13,6 +13,12 @@ namespace Components.Main.Grids.TileItems
 
         void SetDest(Vector2Int targetAbleGridCoord);
 
-        void SetTarget(List<INavNode> borderTiles, TileItemColor tileItemColor, List<ICarDoor> doorTransList);
+        void SetTarget
+        (
+            List<INavNode> borderTiles,
+            TileItemColor tileItemColor,
+            List<ICarDoor> doorTransList,
+            ITargetAbleCar targetAbleCar
+        );
     }
 }

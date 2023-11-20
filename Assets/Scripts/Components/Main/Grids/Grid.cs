@@ -5,6 +5,7 @@ using Datas.Levels;
 using Events.External;
 using Events.Internal;
 using Extensions.System;
+using Extensions.Unity;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEditor;
@@ -50,6 +51,8 @@ namespace Components.Main.Grids
         [ShowIf("@false")][OdinSerialize] private GameObject road;
         [ShowIf("@false")][OdinSerialize] private GameObject roadCorner;
         [ShowIf("@false")][OdinSerialize] private GameObject roadT;
+        private float _tileSize;
+        [ShowInInspector] private Dictionary<Corner, Transform> _cornerRoads;
 
         private void OnEnable()
         {
@@ -80,7 +83,7 @@ namespace Components.Main.Grids
         {
             int[] sizes = _tileData.GetSize();
 
-            float tileSize = _tilePrefab.GetComponent<Tile>()
+            _tileSize = _tilePrefab.GetComponent<Tile>()
             .MeshRenderer.bounds.size.x;
 
             _runtimeGrid = new Tile[sizes[0], sizes[1]];
@@ -90,7 +93,7 @@ namespace Components.Main.Grids
             for (int y = 0; y < sizes[1]; y ++)
             {
                 TileData tileData = _tileData[x, y];
-                Vector3 tilePosition = new(x * tileSize, 0, (sizes[1] - 1 - y) * tileSize);
+                Vector3 tilePosition = GridF.ToWorldPos(x, y, sizes, _tileSize);
 
                 GameObject newTileGo = GridInternalEvents.InstantiatePrefab?.Invoke
                 (tileData.Prefab);
@@ -135,7 +138,7 @@ namespace Components.Main.Grids
                 );
             }
 
-            CreateRoads(tileSize, GridInternalEvents);
+            CreateRoads(_tileSize, GridInternalEvents);
 
             GridEvents.GridStarted?.Invoke(_runtimeGrid);
         }
@@ -149,11 +152,15 @@ namespace Components.Main.Grids
 
             _roadCont.transform.SetParent(_myTrans);
 
+            _cornerRoads = new Dictionary<Corner, Transform>();
+
             for (int x = -1; x < gSize[0] + 1; x ++)
             {
+                Transform cornerRoadTrans;
+
                 if (x == -1)
                 {
-                    CreateRoad
+                    cornerRoadTrans = CreateRoad
                     (
                         x,
                         -1,
@@ -163,7 +170,9 @@ namespace Components.Main.Grids
                         Corner.LowerRight
                     );
 
-                    CreateRoad
+                    _cornerRoads.Add(Corner.LowerRight, cornerRoadTrans);
+                    
+                    cornerRoadTrans = CreateRoad
                     (
                         x,
                         gSize[1],
@@ -172,10 +181,12 @@ namespace Components.Main.Grids
                         gie,
                         Corner.LowerLeft
                     );
+                    
+                    _cornerRoads.Add(Corner.LowerLeft, cornerRoadTrans);
                 }
                 else if (x == gSize[0])
                 {
-                    CreateRoad
+                    cornerRoadTrans = CreateRoad
                     (
                         x,
                         -1,
@@ -184,8 +195,8 @@ namespace Components.Main.Grids
                         gie,
                         Corner.UpperRight
                     );
-
-                    CreateRoad
+                    _cornerRoads.Add(Corner.UpperRight, cornerRoadTrans);
+                    cornerRoadTrans = CreateRoad
                     (
                         x,
                         gSize[1],
@@ -194,7 +205,7 @@ namespace Components.Main.Grids
                         gie,
                         Corner.UpperRight
                     );
-
+                    _cornerRoads.Add(Corner.UpperLeft, cornerRoadTrans);
                     for (int x1 = 1; x1 < RoadToOutLength; x1 ++)
                     {
                         CreateRoad
@@ -254,7 +265,7 @@ namespace Components.Main.Grids
             }
         }
 
-        private void CreateRoad
+        private Transform CreateRoad
         (
             int x,
             int y,
@@ -275,6 +286,8 @@ namespace Components.Main.Grids
 
             newRoad.transform.SetParent(_roadCont.transform);
             _roadsRuntime.Add(newRoad);
+
+            return newRoad.transform;
         }
 
         private INavNode GetLastTileAtDir
@@ -347,14 +360,13 @@ namespace Components.Main.Grids
         }
 
         private List<INavNode> OnGetBorderNavTiles(TileItem arg)
-        {//TODO:
+        {
             List<INavNode> borderNavTiles = new();
 
-            Vector2Int rotatedGridSize = GridF.GetRotatedSize(arg);
             int rotAxisIndex = GridF.GetRotAxisIndex(arg.GridRotation);
             int rotAxisSign = GridF.GetRotAxisIndexSign(arg.GridRotation);
-
-            for (int i = 0; i < rotatedGridSize[rotAxisIndex]; i ++)
+            
+            for (int i = 0; i < arg.GridSize; i ++)
             {
                 Vector2Int borderCoordLength = arg.GridCoord;
                 borderCoordLength[rotAxisIndex] += i * rotAxisSign;
@@ -367,7 +379,7 @@ namespace Components.Main.Grids
                         borderNavTiles.Add(_runtimeGrid[borderCoordLength.x, borderCoordLength.y]);
                     }
                 }
-                else if (i == rotatedGridSize[rotAxisIndex] - 1)
+                else if (i == arg.GridSize - 1)
                 {
                     borderCoordLength[rotAxisIndex] += rotAxisSign;
 
@@ -441,9 +453,23 @@ namespace Components.Main.Grids
                     dirAxisSign
                 );
 
-                bool canLeave = GridF.IsBorderTile(destNode.Coord, _runtimeGrid.Size2Vect());
+                Vector2Int endCoord = GridF.GetSizeUnitPos
+                (
+                    tileItemTrans.Size,
+                    tileItemTrans.Size,
+                    destNode.Coord,
+                    tileItemTrans.GridRotation
+                );
 
-                return new GridEvents.CarPathResult(destNode, false, canLeave);
+                bool canLeave = GridF.IsBorderTile(rotAxisIndex ,endCoord, _runtimeGrid.Size2Vect());
+                List<Vector3> path = new();
+
+                if (canLeave)
+                {
+                    GetExitPath(endCoord, path);
+                }
+
+                return new GridEvents.CarPathResult(canLeave, path, destNode, false);
             }
 
             if (GridF.GridContainsCoord
@@ -461,13 +487,54 @@ namespace Components.Main.Grids
                     tileItemTrans.GridRotation,
                     dirAxisSign
                 );
-
-                bool canLeave = GridF.IsBorderTile(destNode.Coord, _runtimeGrid.Size2Vect());
-
-                return new GridEvents.CarPathResult(destNode, false, canLeave);
+                
+                return new GridEvents.CarPathResult(false, null, destNode, false);
             }
 
             return new GridEvents.CarPathResult(true);
+        }
+
+        private void GetExitPath(Vector2Int endCoord, List<Vector3> path)
+        {
+            Vector3 firstPos = GridF.ToWorldPos(endCoord.x, endCoord.y, _runtimeGrid.GetSize(), _tileSize);
+            if (endCoord.x == 0)
+            {
+                firstPos.x -= _tileSize;
+                path.Add(firstPos);
+                path.Add(_cornerRoads[Corner.LowerLeft].position);
+                path.Add(_cornerRoads[Corner.UpperLeft].position);
+            }
+            else if (endCoord.x ==
+                _runtimeGrid.Size2Vect()
+                .x -
+                1)
+            {
+                firstPos.x += _tileSize;
+                path.Add(firstPos);
+                path.Add(_cornerRoads[Corner.UpperLeft].position);
+
+            }
+            else if (endCoord.y == 0)
+            {
+                firstPos.y -= _tileSize;
+                path.Add(firstPos);
+                path.Add(_cornerRoads[Corner.UpperLeft].position);
+
+            }
+            else if (endCoord.y ==
+                _runtimeGrid.Size2Vect()
+                .y -
+                1)
+            {
+                firstPos.y += _tileSize;
+                path.Add(firstPos);
+                path.Add(_cornerRoads[Corner.UpperRight].position);
+                path.Add(_cornerRoads[Corner.UpperLeft].position);
+            }
+            else
+            {
+                Debug.LogWarning(endCoord);
+            }
         }
 
         private void OnLoadGrid(TileData[,] arg0)

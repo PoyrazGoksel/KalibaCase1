@@ -10,5 +10,9 @@ namespace Components.Main.Grids.TileItems.Cars
         TileItemColor TileItemColor { get; }
 
         List<ICarDoor> GetDoors();
+
+        void SetFull();
+
+        bool IsFull { get; }
     }
 }

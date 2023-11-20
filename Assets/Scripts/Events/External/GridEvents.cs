@@ -26,21 +26,24 @@ namespace Events.External
             public readonly bool IsBackwards;
             public readonly bool NoPath;
             public readonly bool CanLeaveGrid;
+            public readonly List<Vector3> LeavePath;
 
-            public CarPathResult(INavNode navNode, bool isBackwards, bool canLeaveGrid)
+            public CarPathResult(bool canLeaveGrid,List<Vector3> leavePath, INavNode navNode, bool isBackwards)
             {
                 NavNode = navNode;
                 IsBackwards = isBackwards;
                 NoPath = default;
                 CanLeaveGrid = canLeaveGrid;
+                LeavePath = leavePath;
             }
 
             public CarPathResult(bool noPath)
             {
                 NoPath = true;
-                NavNode = null;
-                IsBackwards = false;
-                CanLeaveGrid = false;
+                NavNode = default;
+                IsBackwards = default;
+                CanLeaveGrid = default;
+                LeavePath = default;
             }
         }
         public readonly struct TileItemTrans

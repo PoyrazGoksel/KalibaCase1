@@ -6,7 +6,7 @@ using DG.Tweening;
 using Events.External;
 using Events.Internal;
 using Extensions.DoTween;
-using Sirenix.OdinInspector;
+using Extensions.Unity;
 using UnityEngine;
 using Zenject;
 
@@ -35,6 +35,7 @@ namespace Components.Main.Grids.TileItems.StickMans
         public ITweenContainer TweenContainer { get; set; }
         private bool _isEnteringCar;
         private List<ICarDoor> _doors;
+        private ITargetAbleCar _carToEnter;
 
         private void Awake()
         {
@@ -72,12 +73,26 @@ namespace Components.Main.Grids.TileItems.StickMans
             _myMeshRenderer.SetPropertyBlock(_lastMaterialPropertyBlock);
         }
 
-        void ISelectable.SetTarget(List<INavNode> borderTiles, TileItemColor tileItemColor, List<ICarDoor> doorTransList)
+        void ISelectable.SetTarget
+        (
+            List<INavNode> borderTiles,
+            TileItemColor tileItemColor,
+            List<ICarDoor> doorTransList,
+            ITargetAbleCar targetAbleCar
+        )
         {
-            if (tileItemColor!= TileItemColor)
+            if (tileItemColor!= TileItemColor || targetAbleCar.IsFull)
             {
                 DoAngryFace();
+                return;
+            }
 
+            if (borderTiles.Any(e => e.Coord == GridCoord))
+            {
+                GridEvents.TileItemMoveStart?.Invoke(this);
+                SetEnteringCar(doorTransList, targetAbleCar);
+                EnterCar();
+                DoHappyFace();
                 return;
             }
             
@@ -91,32 +106,36 @@ namespace Components.Main.Grids.TileItems.StickMans
                 if (_gridAgent.CanSetDest(GridCoord, borderTile.Coord) == false) continue;
 
                 float newDist = Vector3.Distance(_myTransform.position, borderTile.WPos);
-
+                
                 if (newDist < closestTileDist)
                 {
                     closestTileDist = newDist;
                     closestTile = borderTile;
                 }
-            }
+            }   
 
             if (closestTile != null)
             {
-                SetEnteringCar(doorTransList);
+                SetEnteringCar(doorTransList, targetAbleCar);
                 SetDest(closestTile.Coord);
                 DoHappyFace();
             }
-            
-            DoAngryFace();
+            else
+            {
+                DoAngryFace();
+            }
         }
 
-        private void SetEnteringCar(List<ICarDoor> doorTransList)
+        private void SetEnteringCar(List<ICarDoor> doorTransList, ITargetAbleCar targetAbleCar)
         {
             _isEnteringCar = true;
             _doors = doorTransList;
+            _carToEnter = targetAbleCar;
         }
 
         private void DoAngryFace()
         {
+            SetTrigger(yellAnimTrig);
             _angryFace.DoAnim();
         }
         
@@ -158,33 +177,43 @@ namespace Components.Main.Grids.TileItems.StickMans
         {
             if (_isEnteringCar)
             {
-                ICarDoor closestDoor = _doors.OrderBy
-                (e => Vector3.Distance(e.EntrancePoint, _myTransform.position))
-                .First();
+                EnterCar();
 
-                TweenContainer.AddTween = _myTransform.DOMove(closestDoor.EntrancePoint, 3f);
-                TweenContainer.AddedTween.SetSpeedBased();
-                TweenContainer.AddedTween.onComplete += delegate
-                {
-                    SetTrigger(openDoorAnimTrig);
-                    closestDoor.Open();
-                    TweenContainer.AddTween = _myTransform.DOMove(closestDoor.SeatPos, 1f);
-                    TweenContainer.AddedTween.onComplete += delegate
-                    {
-                        closestDoor.Close();
-                        SetWalking(false);
-                        GridEvents.TileItemMoveEnd?.Invoke(this);
-                    };
-                    TweenContainer.AddTween = _myTransform.DOLookAt(closestDoor.SeatPos, 0.3f);
-                    TweenContainer.AddTween = _myTransform.DOScale(0.5f * Vector3.one, 1f);
-                };
-
-                TweenContainer.AddTween = _myTransform.DOLookAt(closestDoor.EntrancePoint, 0.3f);
                 return;
             }
             SetCoord(arg0);
-            GridEvents.TileItemRemove?.Invoke(this);
+            GridEvents.TileItemMoveEnd?.Invoke(this);
             SetWalking(false);
+        }
+
+        private void EnterCar()
+        {
+            ICarDoor closestDoor = _doors.OrderBy
+            (e => Vector3.Distance(e.EntrancePoint, _myTransform.position))
+            .First();
+
+            TweenContainer.AddTween = _myTransform.DOMove(closestDoor.EntrancePoint, 3f);
+            TweenContainer.AddedTween.SetSpeedBased();
+
+            TweenContainer.AddedTween.onComplete += delegate
+            {
+                SetTrigger(openDoorAnimTrig);
+                closestDoor.Open();
+                TweenContainer.AddTween = _myTransform.DOMove(closestDoor.SeatPos, 1f);
+
+                TweenContainer.AddedTween.onComplete += delegate
+                {
+                    closestDoor.Close();
+                    SetWalking(false);
+                    _carToEnter.SetFull();
+                    GridEvents.TileItemRemove?.Invoke(this);
+                };
+
+                TweenContainer.AddTween = _myTransform.DOLookAt(closestDoor.SeatPos, 0.3f);
+                TweenContainer.AddTween = _myTransform.DOScale(0.5f * Vector3.one, 1f);
+            };
+
+            TweenContainer.AddTween = _myTransform.DOLookAt(closestDoor.EntrancePoint, 0.3f);
         }
 
         protected override void UnRegisterEvents()

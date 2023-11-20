@@ -224,9 +224,16 @@ namespace Components.Main.Grids
             return true;
         }
 
-        public static bool IsBorderTile(Vector2Int coord, Vector2Int gridSize)
+        public static bool IsBorderTile(int rotAxisIndex, Vector2Int coord, Vector2Int gridSize)
         {
-            return (coord.x == 0 || coord.x == gridSize.x - 1) && (coord.y == 0 || coord.y == gridSize.y - 1);
+            if (rotAxisIndex == 0)
+            {
+                return coord.x == 0 || coord.x == gridSize.x - 1;
+            }
+            else
+            {
+                return coord.y == 0 || coord.y == gridSize.y - 1;
+            }
         }
 
         public static Vector2Int GetSizeUnitPos(int axisVal, int tileItemSize , Vector2Int gridCoord, GridRot gridRot)
@@ -273,6 +280,11 @@ namespace Components.Main.Grids
         public static int GetPerpAxisIndex2D(int axisIndex)
         {
             return Mathf.Abs(axisIndex - 1);
+        }
+
+        public static Vector3 ToWorldPos(int x, int y, int[] sizes, float tileSize)
+        {
+            return new Vector3(x * tileSize, 0, (sizes[1] - 1 - y) * tileSize);
         }
     }
 }
