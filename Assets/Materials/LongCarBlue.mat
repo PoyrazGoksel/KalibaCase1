@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Large-Car-3-Tile-SHTV_Material_Cars_White.005
+  m_Name: LongCarBlue
   m_Shader: {fileID: 4800000, guid: 913474fcb7a9e5d48add0e4b4b78b924, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:

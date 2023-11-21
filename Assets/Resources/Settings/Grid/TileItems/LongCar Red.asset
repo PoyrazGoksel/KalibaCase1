@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c71540bf9ce4bf494fef72795eea62a, type: 3}
-  m_Name: ShortCar
+  m_Name: LongCar Red
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 2730035215191550770, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
-  _gridSize: 2
+  _prefab: {fileID: 4796334910011852600, guid: 66b9d0ca5542c2b44894fcd6f761739b, type: 3}
+  _gridSize: 3

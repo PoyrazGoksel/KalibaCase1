@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c71540bf9ce4bf494fef72795eea62a, type: 3}
-  m_Name: StickMan
+  m_Name: StickMan Orange
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 4257470898365378916, guid: ce986442537260e499dcf4cac5d16fd3, type: 3}
+  _prefab: {fileID: 1099740538614651398, guid: 27789831428be3740beb8583d204c085, type: 3}
   _gridSize: 1

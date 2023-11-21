@@ -220,7 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d9348e98614cce8461340dd45c48af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneCam: {fileID: 0}
 --- !u!4 &753882978
 Transform:
   m_ObjectHideFlags: 0
