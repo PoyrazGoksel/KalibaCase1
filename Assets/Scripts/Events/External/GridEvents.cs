@@ -20,6 +20,7 @@ namespace Events.External
         public UnityAction<TileItem> TileItemMoveEnd;
         public UnityAction<TileItem> TileItemRemove;
         public Func<TileItem, List<INavNode>> GetBorderNavTiles;
+        public UnityAction CarLeftGrid;
         public readonly struct CarPathResult
         {
             public readonly INavNode NavNode;

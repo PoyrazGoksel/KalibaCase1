@@ -103,7 +103,12 @@ namespace Components.Main.Grids.TileItems.Cars
                         (i * leavePathDur + 0.2f, _myTransform.DORotateQuaternion(lookRot, leavePathDur));
                     }
                 }
-
+                
+                TweenContainer.AddedSeq.onComplete += delegate
+                {
+                    GridEvents.CarLeftGrid?.Invoke();
+                };
+                
                 return true;
             }
 

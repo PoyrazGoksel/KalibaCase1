@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Components.Main.Grids.GridPathFinder;
 using Components.Main.Grids.TileItems;
+using Components.Main.Grids.TileItems.Cars;
 using Datas.Levels;
 using Events.External;
 using Events.Internal;
@@ -28,7 +29,10 @@ namespace Components.Main.Grids
         private const int RoadToOutLength = 10;
         [Inject] private GridEvents GridEvents { get; set; }
         [Inject] private GridInternalEvents GridInternalEvents { get; set; }
+        [Inject] private GameStateEvents GameStateEvents { get; set; }
         private readonly List<GameObject> _roadsRuntime = new();
+        private int _carCount;
+        [ShowInInspector] private Dictionary<Corner, Transform> _cornerRoads;
         [InlineEditor][OdinSerialize] private LevelData _levelData;
         [ShowIf("@false")][OdinSerialize] private Transform _myTrans;
         [ShowIf("@false")][OdinSerialize] private GameObject _roadCont;
@@ -48,11 +52,10 @@ namespace Components.Main.Grids
         private Tile[,] _runtimeGrid;
         private TileData[,] _tileData;
         [ShowIf("@false")][OdinSerialize] private GameObject _tilePrefab;
+        private float _tileSize;
         [ShowIf("@false")][OdinSerialize] private GameObject road;
         [ShowIf("@false")][OdinSerialize] private GameObject roadCorner;
         [ShowIf("@false")][OdinSerialize] private GameObject roadT;
-        private float _tileSize;
-        [ShowInInspector] private Dictionary<Corner, Transform> _cornerRoads;
 
         private void OnEnable()
         {
@@ -118,6 +121,11 @@ namespace Components.Main.Grids
                 (tileItemData.Prefab);
 
                 TileItem newTileItem = newTileItemGo.GetComponent<TileItem>();
+
+                if (newTileItem.GetType() == typeof(Car))
+                {
+                    _carCount ++;
+                }
 
                 IGridTileItem gridTileItem = newTileItem;
 
@@ -352,6 +360,17 @@ namespace Components.Main.Grids
             GridEvents.TileItemMoveEnd += OnTileItemMoveEnd;
             GridEvents.GetBorderNavTiles += OnGetBorderNavTiles;
             GridEvents.TileItemRemove += OnTileItemRemove;
+            GridEvents.CarLeftGrid += OnCarLeftGrid;
+        }
+
+        private void OnCarLeftGrid()
+        {
+            _carCount --;
+
+            if (_carCount == 0)
+            {
+                GameStateEvents.LevelSuccess?.Invoke();
+            }
         }
 
         private void OnTileItemRemove(TileItem arg0)
@@ -551,6 +570,7 @@ namespace Components.Main.Grids
             GridEvents.TileItemMoveEnd -= OnTileItemMoveEnd;
             GridEvents.GetBorderNavTiles -= OnGetBorderNavTiles;
             GridEvents.TileItemRemove -= OnTileItemRemove;
+            GridEvents.CarLeftGrid -= OnCarLeftGrid;
         }
     }
 }
