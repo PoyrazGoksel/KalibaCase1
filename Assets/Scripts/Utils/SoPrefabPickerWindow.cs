@@ -2,43 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using Extensions.System;
+using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-namespace Datas.Levels
+namespace Utils
 {
-    public class ObjectAssetPickerWindow : EditorWindow
+    public class SoPrefabPickerWindow : EditorWindow
     {
         private const int EditorAssetPreviewSquare = 128;
         private string _assetsPath;
-        private Object[] _assets;
+        private PrefabPickableSo[] _assets;
         private Vector2 _scrollPosition;
-        private Object _selectedAsset;
+        private PrefabPickableSo _selectedAsset;
         private Type _assetType;
         private string _subTitle;
-        private UnityAction<Object> _onComplete;
+        private UnityAction<PrefabPickableSo> _onAccept;
+        private UnityAction<PrefabPickableSo> _onSelection;
+        private UnityAction _onClosed;
         private bool _groupByInheritedType;
 
         public static void ShowWindow
         (
             string title,
             string assetsPath,
-            UnityAction<Object> onComplete,
+            UnityAction<PrefabPickableSo> onAccept,
+            UnityAction<PrefabPickableSo> onSelection,
+            UnityAction onClosed,
             Type assetsType = null,
             string subtitle = null,
             bool groupByInheritedType = false
         )
         {
-            ObjectAssetPickerWindow newWin = GetWindow<ObjectAssetPickerWindow>(title, true);
+            SoPrefabPickerWindow newWin = GetWindow<SoPrefabPickerWindow>(title, true);
 
             newWin.Construct
             (
                 subtitle,
                 assetsPath,
                 assetsType,
-                onComplete,
+                onAccept,
+                onSelection,
+                onClosed,
                 groupByInheritedType
             );
 
@@ -50,14 +57,18 @@ namespace Datas.Levels
             string subtitle,
             string assetsPath,
             Type assetType,
-            UnityAction<Object> onComplete,
+            UnityAction<PrefabPickableSo> onAccept,
+            UnityAction<PrefabPickableSo> onSelection,
+            UnityAction onClosed,
             bool groupByInheritedType
         )
         {
             _subTitle = subtitle;
             _assetsPath = assetsPath;
             _assetType = assetType;
-            _onComplete = onComplete;
+            _onAccept = onAccept;
+            _onSelection = onSelection;
+            _onClosed = onClosed;
             _groupByInheritedType = groupByInheritedType;
         }
 
@@ -68,7 +79,7 @@ namespace Datas.Levels
 
         private void OnDisable()
         {
-            _onComplete?.Invoke(_selectedAsset);
+            _onClosed?.Invoke();
         }
 
         private void OnGUI()
@@ -89,9 +100,9 @@ namespace Datas.Levels
             int buttonHorizontalCount = 0;
             Type lastType = null;
 
-            foreach (Object asset in _assets)
+            foreach (PrefabPickableSo asset in _assets)
             {
-                Texture2D assetPreview = AssetPreview.GetAssetPreview(asset);
+                Texture2D assetPreview = AssetPreview.GetAssetPreview(asset.Prefab) ?? Texture2D.whiteTexture;
 
                 if (buttonHorizontalCount != 0 && buttonHorizontalCount % 5 == 0)
                 {
@@ -103,66 +114,61 @@ namespace Datas.Levels
                     TryGroupByType(ref lastType, asset, ref buttonHorizontalCount);
                 }
 
-                if (assetPreview == null)
+                if (asset == _selectedAsset)
                 {
-                    if (GUILayout.Button
-                    (
-                        new GUIContent(asset.name),
-                        GUILayout.Width(EditorAssetPreviewSquare),
-                        GUILayout.Height(EditorAssetPreviewSquare)
-                    ))
-                    {
-                        _selectedAsset = asset;
-                        Close();
-
-                        break;
-                    }    
+                     GUILayout.Box(new GUIContent("Selected", assetPreview),GUILayout.Width(EditorAssetPreviewSquare), GUILayout.Height(EditorAssetPreviewSquare));   
                 }
                 else
                 {
                     if (GUILayout.Button
-                    (
-                        assetPreview,
-                        GUILayout.Width(EditorAssetPreviewSquare),
-                        GUILayout.Height(EditorAssetPreviewSquare)
-                    ))
+                    (assetPreview, GUILayout.Width(EditorAssetPreviewSquare), GUILayout.Height(EditorAssetPreviewSquare)))
                     {
                         _selectedAsset = asset;
-                        Close();
-
+                        _onSelection?.Invoke(asset);
                         break;
                     }
-                
                 }
 
                 buttonHorizontalCount ++;
             }
-
+            
             GUILayout.EndHorizontal();
             GUILayout.EndScrollView();
+            
+            GUILayout.BeginVertical();
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Accept"))
+            {
+                if(_selectedAsset != null) _onAccept?.Invoke(_selectedAsset);
+                Close();
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
         }
 
-        private void TryGroupByType(ref Type lastType, Object asset, ref int buttonHorizontalCount)
+        private void TryGroupByType(ref Type lastType, PrefabPickableSo asset, ref int buttonHorizontalCount)
         {
             if (_groupByInheritedType == false)
             {
                 lastType = null;
-
                 return;
             }
 
             if (_assetType == null)
             {
                 lastType = null;
-
                 return;
             }
 
-            if (lastType != asset.GetType())
+            if (lastType !=
+                asset.Prefab.GetComponent(_assetType)
+                .GetType())
             {
                 buttonHorizontalCount = 0;
 
-                lastType = asset.GetType();
+                lastType = asset.Prefab.GetComponent(_assetType)
+                .GetType();
 
                 GUILayout.EndHorizontal();
                 GUILayout.BeginVertical();
@@ -172,6 +178,7 @@ namespace Datas.Levels
             }
         }
 
+    
         private void LoadPrefabAssetsFromFolder()
         {
             string[] assetPaths = AssetDatabase.FindAssets
@@ -185,20 +192,33 @@ namespace Datas.Levels
             .Select(AssetDatabase.GUIDToAssetPath)
             .ToArray();
 
-            IEnumerable<Object> assetsEnums = assetPaths.Select
-            (AssetDatabase.LoadAssetAtPath<Object>)
+            IEnumerable<PrefabPickableSo> assetsEnums = assetPaths.Select
+            (AssetDatabase.LoadAssetAtPath<PrefabPickableSo>)
             .NotNull();
 
             if (_assetType != null)
             {
-                Object[] assetsByType = assetsEnums.Where(e => e.GetType() == _assetType)
+                PrefabPickableSo[] assetsByType = assetsEnums.Where
+                (
+                    e =>
+                    {
+                        Object component = e.Prefab.GetComponent(_assetType);
+
+                        return component != null &&
+                        (component.GetType() == _assetType ||
+                            component.GetType()
+                            .GetBaseTypes()
+                            .Any(e1 => e1 == _assetType));
+                    }
+                )
                 .ToArray();
 
                 if (assetsByType.Length > 0)
                 {
                     _assets = assetsByType.OrderBy
                     (
-                        e => e.GetType()
+                        e => e.Prefab.GetComponent(_assetType)
+                        .GetType()
                         .Name
                     )
                     .ToArray();
@@ -209,5 +229,14 @@ namespace Datas.Levels
                 _assets = assetsEnums.ToArray();
             }
         }
+    }
+
+    public class PrefabPickableSo : ScriptableObject
+    {
+        [SerializeField] private GameObject _prefab;
+
+        public GameObject Prefab => _prefab;
+
+        
     }
 }
