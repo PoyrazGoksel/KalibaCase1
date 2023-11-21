@@ -20,6 +20,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 728b3050c00728e4399da5c6f14feb0b, type: 2}
     - target: {fileID: 1615475943336164670, guid: 7884afaf8d2dc9a40b4a6c939dd6757f, type: 3}
+      propertyPath: _wPos.z
+      value: 3.5331376
+      objectReference: {fileID: 0}
+    - target: {fileID: 1615475943336164670, guid: 7884afaf8d2dc9a40b4a6c939dd6757f, type: 3}
+      propertyPath: _gridCoord.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1615475943336164670, guid: 7884afaf8d2dc9a40b4a6c939dd6757f, type: 3}
+      propertyPath: _gridRotation
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1615475943336164670, guid: 7884afaf8d2dc9a40b4a6c939dd6757f, type: 3}
       propertyPath: _tileItemColor
       value: 2
       objectReference: {fileID: 0}
@@ -41,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3795852969873242063, guid: 7884afaf8d2dc9a40b4a6c939dd6757f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.00000004371139
       objectReference: {fileID: 0}
     - target: {fileID: 3795852969873242063, guid: 7884afaf8d2dc9a40b4a6c939dd6757f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -49,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3795852969873242063, guid: 7884afaf8d2dc9a40b4a6c939dd6757f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3795852969873242063, guid: 7884afaf8d2dc9a40b4a6c939dd6757f, type: 3}
       propertyPath: m_LocalRotation.z
