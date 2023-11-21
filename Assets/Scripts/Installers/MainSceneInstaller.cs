@@ -51,7 +51,7 @@ namespace Installers
         {
             Container.InstantiatePrefab(_mySettings.GridPefab);
 
-            LevelData currLevel = _mySettings.LevelList[0/*PlayerData.CurrentLevel*/];
+            LevelData currLevel = _mySettings.LevelList[PlayerData.CurrentLevel];
 
             IGridAccess gridAccess = currLevel;
 

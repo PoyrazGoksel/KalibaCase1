@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using UnityEngine;
 
 namespace Components.Main.Grids.TileItems.StickMans
 {
@@ -9,7 +10,7 @@ namespace Components.Main.Grids.TileItems.StickMans
             TweenContainer.Clear();
             _spriteRenderer.enabled = true;
 
-            TweenContainer.AddTween = _transform.DOShakeRotation(1f, 15f);
+            TweenContainer.AddTween = _transform.DOPunchScale(1.05f * Vector3.one, 0.5f, 10, 0.45f);
             
             TweenContainer.AddedTween.onComplete += delegate
             {

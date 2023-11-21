@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Components.Main.Grids.GridPathFinder;
 using Components.Main.Grids.TileItems;
 using Datas.Levels;
 using Extensions.System;
@@ -22,10 +24,10 @@ namespace Components.Main.Grids
         public static readonly Vector2Int GridRight = new(0, -1);
         public static readonly Vector2Int GridDown = new(-1, 0);
         public static readonly Vector2Int GridLeft = new(0, 1);
-        private static readonly Vector3 gridWorldRotUp = new(0f, 0f, 0f);
-        private static readonly Vector3 gridWorldRotRight = new(0f, 270f, 0f);
-        private static readonly Vector3 gridWorldRotDown = new(0, 180f, 0f);
-        private static readonly Vector3 gridWorldRotLeft = new(0f, 90f, 0f);
+        private static readonly Vector3 gridWorldRotUp = new(0f, 90f, 0f);
+        private static readonly Vector3 gridWorldRotRight = new(0f, 0f, 0f);
+        private static readonly Vector3 gridWorldRotDown = new(0, 270f, 0f);
+        private static readonly Vector3 gridWorldRotLeft = new(0f, 180f, 0f);
         public static int GetRotAxisIndexSign(GridRot newGridRot)
         {
             return newGridRot switch
@@ -253,7 +255,91 @@ namespace Components.Main.Grids
 
             return tileItemPivot;
         }
+        
+        public static List<INavNode> GetBorderNavTiles(TileItem arg, Tile[,] runtimeGrid)
+        {
+            List<INavNode> borderNavTiles = new();
 
+            int rotAxisIndex = GetRotAxisIndex(arg.GridRotation);
+            int rotAxisSign = GetRotAxisIndexSign(arg.GridRotation);
+            
+            for (int i = 0; i < arg.GridSize; i ++)
+            {
+                Vector2Int borderCoordLength = arg.GridCoord;
+                borderCoordLength[rotAxisIndex] += i * rotAxisSign;
+                
+                if (i == 0)
+                {
+                    borderCoordLength[rotAxisIndex] -= rotAxisSign;
+                    if (GridContainsCoord(borderCoordLength, runtimeGrid.Size2Vect()))
+                    {
+                        borderNavTiles.Add(runtimeGrid[borderCoordLength.x, borderCoordLength.y]);
+                    }
+                }
+                else if (i == arg.GridSize - 1)
+                {
+                    borderCoordLength[rotAxisIndex] += rotAxisSign;
+
+                    if (GridContainsCoord(borderCoordLength, runtimeGrid.Size2Vect()))
+                    {
+                        borderNavTiles.Add(runtimeGrid[borderCoordLength.x, borderCoordLength.y]);
+                    }
+                }
+
+                Vector2Int borderCoordWidth1 = arg.GridCoord;
+                borderCoordWidth1[rotAxisIndex] += i * rotAxisSign;
+                Vector2Int borderCoordWidth2 = arg.GridCoord;
+                borderCoordWidth2[rotAxisIndex] += i * rotAxisSign;
+                borderCoordWidth1[GetPerpAxisIndex2D(rotAxisIndex)] -= 1;
+                borderCoordWidth2[GetPerpAxisIndex2D(rotAxisIndex)] += 1;
+                
+                if (GridContainsCoord(borderCoordWidth1, runtimeGrid.Size2Vect()))
+                {
+                    borderNavTiles.Add(runtimeGrid[borderCoordWidth1.x, borderCoordWidth1.y]);
+                }
+
+                if (GridContainsCoord(borderCoordWidth2, runtimeGrid.Size2Vect()))
+                {
+                    borderNavTiles.Add(runtimeGrid[borderCoordWidth2.x, borderCoordWidth2.y]);
+                }
+            }
+            
+            return borderNavTiles;
+        }
+        
+        public static List<INavNode> GetSideBorderNavTiles(TileItem arg, Tile[,] runtimeGrid)
+        {
+            List<INavNode> borderNavTiles = new();
+
+            int rotAxisIndex = GetRotAxisIndex(arg.GridRotation);
+            int rotAxisSign = GetRotAxisIndexSign(arg.GridRotation);
+            
+            for (int i = 0; i < arg.GridSize; i ++)
+            {
+                Vector2Int borderCoordLength = arg.GridCoord;
+                borderCoordLength[rotAxisIndex] += i * rotAxisSign;
+
+                Vector2Int borderCoordWidth1 = arg.GridCoord;
+                borderCoordWidth1[rotAxisIndex] += i * rotAxisSign;
+                Vector2Int borderCoordWidth2 = arg.GridCoord;
+                borderCoordWidth2[rotAxisIndex] += i * rotAxisSign;
+                borderCoordWidth1[GetPerpAxisIndex2D(rotAxisIndex)] -= 1;
+                borderCoordWidth2[GetPerpAxisIndex2D(rotAxisIndex)] += 1;
+                
+                if (GridContainsCoord(borderCoordWidth1, runtimeGrid.Size2Vect()))
+                {
+                    borderNavTiles.Add(runtimeGrid[borderCoordWidth1.x, borderCoordWidth1.y]);
+                }
+
+                if (GridContainsCoord(borderCoordWidth2, runtimeGrid.Size2Vect()))
+                {
+                    borderNavTiles.Add(runtimeGrid[borderCoordWidth2.x, borderCoordWidth2.y]);
+                }
+            }
+            
+            return borderNavTiles;
+        }
+        
         public static Vector2Int GetRotatedSize
         (TileItem tileItem) =>
         GetRotatedSize(tileItem.GridRotation, tileItem.GridSize);

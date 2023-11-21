@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d359ff17842706e4eb056093bcd9acef, type: 2}
     - target: {fileID: 2730035215191550770, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
       propertyPath: m_Name
-      value: ShortCar Yellow
+      value: ShortCar Yellow Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3404159323256308072, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -23,6 +23,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d359ff17842706e4eb056093bcd9acef, type: 2}
+    - target: {fileID: 4531860886906368385, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
+      propertyPath: _wPos.z
+      value: 3.5331376
+      objectReference: {fileID: 0}
+    - target: {fileID: 4531860886906368385, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
+      propertyPath: _gridCoord.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4531860886906368385, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
+      propertyPath: _tileItemColor
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4918285811231462097, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -40,6 +52,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8260000459162035627, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2799999
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260000459162035627, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2799999
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260000459162035627, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -53,7 +73,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8260000459162035627, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8260000459162035627, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -61,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8260000459162035627, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8260000459162035627, guid: d3c0c0d9bd9ba2d4a8b9ea90535fa32a, type: 3}
       propertyPath: m_LocalRotation.z

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6210708382422951985}
   - component: {fileID: 6012899392542582463}
-  - component: {fileID: 1890196390584007948}
+  - component: {fileID: 6384036424679064048}
   m_Layer: 0
   m_Name: HappyEmoji
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1890196390584007948
+--- !u!114 &6384036424679064048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 899812960163521168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f98d97b97914c80aa0bf026d926df4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b32dad5d9e44501ac5e4004d28ebb98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 6012899392542582463}
@@ -539,7 +539,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 843342435539314166, guid: defa538fcd350d442b8a1b1646c3f93a, type: 3}
       propertyPath: m_Name
-      value: StickMan
+      value: StickManBase
       objectReference: {fileID: 0}
     - target: {fileID: 6698617693638191983, guid: defa538fcd350d442b8a1b1646c3f93a, type: 3}
       propertyPath: m_RootOrder
@@ -669,7 +669,7 @@ MonoBehaviour:
   _animator: {fileID: 4931594522411442036}
   _gridAgent: {fileID: 863062848356147187}
   _angryFace: {fileID: 7341904933030698758}
-  _happyFace: {fileID: 1890196390584007948}
+  _happyFace: {fileID: 6384036424679064048}
 --- !u!114 &863062848356147187
 MonoBehaviour:
   m_ObjectHideFlags: 0

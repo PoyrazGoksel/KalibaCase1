@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Datas.Settings;
 using Events.External;
 using Extensions.Unity;
 using JetBrains.Annotations;
@@ -16,6 +17,9 @@ namespace Datas.Players
         [Inject] private GameStateEvents GameStateEvents { get; set; }
         [Inject] private PanelEvents PanelEvents { get; set; }
         [Inject] private PlayerEvents PlayerEvents { get; set; }
+        [Inject] private MainSceneSettings MainSceneSettings { get; set; }
+
+        
         [SerializeField] private int _currentLevel;
         int IPlayerData.CurrentLevel => _currentLevel;
         [SerializeField] private int _currency;
@@ -85,6 +89,11 @@ namespace Datas.Players
         {
             _currentLevel ++;
 
+            if (_currentLevel > MainSceneSettings.Settings.LevelList.Count)
+            {
+                _currentLevel = 0;
+            }
+            
             PlayerEvents.PlayerLevelChanged?.Invoke(_currentLevel);
         }
 

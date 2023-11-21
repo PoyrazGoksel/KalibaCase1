@@ -380,53 +380,7 @@ namespace Components.Main.Grids
 
         private List<INavNode> OnGetBorderNavTiles(TileItem arg)
         {
-            List<INavNode> borderNavTiles = new();
-
-            int rotAxisIndex = GridF.GetRotAxisIndex(arg.GridRotation);
-            int rotAxisSign = GridF.GetRotAxisIndexSign(arg.GridRotation);
-            
-            for (int i = 0; i < arg.GridSize; i ++)
-            {
-                Vector2Int borderCoordLength = arg.GridCoord;
-                borderCoordLength[rotAxisIndex] += i * rotAxisSign;
-                
-                if (i == 0)
-                {
-                    borderCoordLength[rotAxisIndex] -= rotAxisSign;
-                    if (GridF.GridContainsCoord(borderCoordLength, _runtimeGrid.Size2Vect()))
-                    {
-                        borderNavTiles.Add(_runtimeGrid[borderCoordLength.x, borderCoordLength.y]);
-                    }
-                }
-                else if (i == arg.GridSize - 1)
-                {
-                    borderCoordLength[rotAxisIndex] += rotAxisSign;
-
-                    if (GridF.GridContainsCoord(borderCoordLength, _runtimeGrid.Size2Vect()))
-                    {
-                        borderNavTiles.Add(_runtimeGrid[borderCoordLength.x, borderCoordLength.y]);
-                    }
-                }
-
-                Vector2Int borderCoordWidth1 = arg.GridCoord;
-                borderCoordWidth1[rotAxisIndex] += i * rotAxisSign;
-                Vector2Int borderCoordWidth2 = arg.GridCoord;
-                borderCoordWidth2[rotAxisIndex] += i * rotAxisSign;
-                borderCoordWidth1[GridF.GetPerpAxisIndex2D(rotAxisIndex)] -= 1;
-                borderCoordWidth2[GridF.GetPerpAxisIndex2D(rotAxisIndex)] += 1;
-                
-                if (GridF.GridContainsCoord(borderCoordWidth1, _runtimeGrid.Size2Vect()))
-                {
-                    borderNavTiles.Add(_runtimeGrid[borderCoordWidth1.x, borderCoordWidth1.y]);
-                }
-
-                if (GridF.GridContainsCoord(borderCoordWidth2, _runtimeGrid.Size2Vect()))
-                {
-                    borderNavTiles.Add(_runtimeGrid[borderCoordWidth2.x, borderCoordWidth2.y]);
-                }
-            }
-            
-            return borderNavTiles;
+            return GridF.GetSideBorderNavTiles(arg, _runtimeGrid);
         }
 
         private void OnTileItemMoveEnd(TileItem arg0)
@@ -535,7 +489,7 @@ namespace Components.Main.Grids
             }
             else if (endCoord.y == 0)
             {
-                firstPos.y -= _tileSize;
+                firstPos.z += _tileSize;
                 path.Add(firstPos);
                 path.Add(_cornerRoads[Corner.UpperLeft].position);
 
@@ -545,7 +499,7 @@ namespace Components.Main.Grids
                 .y -
                 1)
             {
-                firstPos.y += _tileSize;
+                firstPos.z += _tileSize;
                 path.Add(firstPos);
                 path.Add(_cornerRoads[Corner.UpperRight].position);
                 path.Add(_cornerRoads[Corner.UpperLeft].position);

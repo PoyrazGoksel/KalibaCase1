@@ -15,6 +15,7 @@ namespace Components.Main.Grids.TileItems.Cars
 {
     public class Car : TileItem, ITargetAbleCar, ITweenContainerBind, IClickAble
     {
+        private const float AgentErrorMargin = 0.1f;
         private static readonly int enableOutline = Shader.PropertyToID("_EnableOutline");
         [SerializeField] private float AccelerationLeanAngle = 15f;
         [SerializeField] private AnimationCurve _accRiseEase;
@@ -28,18 +29,23 @@ namespace Components.Main.Grids.TileItems.Cars
         [SerializeField] private Vector3 _bodyRot;
         [Inject] private GridEvents GridEvents { get; set; }
         private Vector3 _bodyInitLocEul;
+        private Vector3 _currentLeavePath;
         private float _currSpeed;
         private INavNode _destTile;
         private Quaternion _initRot;
         private bool _isDriving;
+        private bool _isFull;
         private MaterialPropertyBlock _lastMaterialPropertyBlock;
+        private List<Vector3> _leavePath;
+        private RoutineHelper _leaveRoutine;
+        private int _wpIndex;
         bool ITargetAbleCar.IsFull => _isFull;
         public ITweenContainer TweenContainer { get; set; }
-        private bool _isFull;
 
         private void Awake()
         {
             TweenContainer = TweenContain.Install(this);
+            _leaveRoutine = new RoutineHelper(this, new WaitForFixedUpdate(), LeaveUpdate);
         }
 
         private void Start()
@@ -78,43 +84,6 @@ namespace Components.Main.Grids.TileItems.Cars
             }
         }
 
-        private bool TryLeaveGrid(GridEvents.CarPathResult? carPathResult)
-        {
-            if (carPathResult.Value.CanLeaveGrid && _isFull)
-            {
-                DoAccelerationAnim(carPathResult.Value.LeavePath[0]);
-                TweenContainer.AddSequence = DOTween.Sequence();
-
-                for (int i = 0; i < carPathResult.Value.LeavePath.Count; i ++)
-                {
-                    Vector3 path = carPathResult.Value.LeavePath[i];
-
-                    float leavePathDur = 0.5f;
-                    Tween moveTween = _myTransform.DOMove(path, leavePathDur);
-                    moveTween.SetEase(Ease.Linear);
-                    TweenContainer.AddedSeq.Insert(i * leavePathDur, moveTween);
-
-                    if (i + 1 < carPathResult.Value.LeavePath.Count)
-                    {
-                        Quaternion lookRot = Quaternion.LookRotation
-                        (carPathResult.Value.LeavePath[i] - _myTransform.position);
-
-                        TweenContainer.AddedSeq.Insert
-                        (i * leavePathDur + 0.2f, _myTransform.DORotateQuaternion(lookRot, leavePathDur));
-                    }
-                }
-                
-                TweenContainer.AddedSeq.onComplete += delegate
-                {
-                    GridEvents.CarLeftGrid?.Invoke();
-                };
-                
-                return true;
-            }
-
-            return false;
-        }
-
         List<ICarDoor> ITargetAbleCar.GetDoors()
         {
             return _doorTransList.Select(e => e as ICarDoor).ToList();
@@ -129,6 +98,92 @@ namespace Components.Main.Grids.TileItems.Cars
         {
             ShowTempOutline();
             return GridEvents.GetBorderNavTiles?.Invoke(this);
+        }
+
+        private void LeaveUpdate()
+        {
+            Vector3 walkDir = (_currentLeavePath - transform.position).normalized;
+            Vector3 nextPos = _myTransform.position + walkDir * Time.deltaTime * _moveSpeed;
+
+            if (Vector3.Distance(nextPos, _currentLeavePath) < AgentErrorMargin)
+            {
+                if (GetNextWp() == false)
+                {
+                    GridEvents.TileItemRemove?.Invoke(this);
+                    GridEvents.CarLeftGrid?.Invoke();
+                    _leaveRoutine.StopCoroutine();
+
+                    return;
+                }
+            }
+            
+            if (Vector3.Angle(_myTransform.forward, nextPos - _myTransform.position) > AgentErrorMargin)
+            {
+                Vector3 targetDirection = (nextPos - _myTransform.position).normalized;
+                Vector3 newDirection = Vector3.RotateTowards(_myTransform.forward, targetDirection, 0.1f, Time.deltaTime * 1f);
+                _myTransform.rotation = Quaternion.LookRotation(newDirection);
+            }
+
+            _myTransform.position = nextPos;
+        }
+
+        private bool GetNextWp()
+        {
+            _wpIndex ++;
+
+            if (_wpIndex >= _leavePath.Count)
+            {
+                _leavePath = new List<Vector3>();
+
+                return false;
+            }
+
+            _currentLeavePath = _leavePath[_wpIndex];
+            return true;
+        }
+
+        private bool TryLeaveGrid(GridEvents.CarPathResult? carPathResult)
+        {
+            if (carPathResult.Value.CanLeaveGrid && _isFull)
+            {
+                SetLeaving(carPathResult);
+                DoAccelerationAnim(carPathResult.Value.LeavePath[0]);
+
+                TweenContainer.AddSequence = DOTween.Sequence();
+                
+                for (int i = 0; i < carPathResult.Value.LeavePath.Count; i ++)
+                {
+                    Vector3 path = carPathResult.Value.LeavePath[i];
+                
+                    float leavePathDur = 0.5f;
+                    Tween moveTween = _myTransform.DOMove(path, leavePathDur);
+                    moveTween.SetEase(Ease.Linear);
+                    TweenContainer.AddedSeq.Insert(i * leavePathDur, moveTween);
+                
+                    if (i + 1 < carPathResult.Value.LeavePath.Count)
+                    {
+                        TweenContainer.AddedSeq.Insert
+                        (i * leavePathDur, _myTransform.DOLookAt(carPathResult.Value.LeavePath[i] - _myTransform.position, 0.3f));
+                    }
+                }
+                
+                TweenContainer.AddedSeq.onComplete += delegate
+                {
+                    GridEvents.TileItemRemove?.Invoke(this);
+                    GridEvents.CarLeftGrid?.Invoke();
+                };
+                
+                return true;
+            }
+
+            return false;
+        }
+
+        private void SetLeaving(GridEvents.CarPathResult? carPathResult)
+        {
+            _wpIndex = 0;
+            _leavePath = carPathResult.Value.LeavePath;
+            _currentLeavePath = _leavePath[_wpIndex];
         }
 
         private void DoAccelerationAnim(Vector3 destTileWPos)
