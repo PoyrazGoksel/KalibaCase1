@@ -816,7 +816,7 @@ MonoBehaviour:
       Data: 
     - Name: _gridRotation
       Entry: 3
-      Data: 3
+      Data: 0
     - Name: _size
       Entry: 3
       Data: 2
@@ -848,8 +848,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 9
-      Data: 30
+      Entry: 6
+      Data: 
     - Name: OverlappingTileItemData
       Entry: 6
       Data: 
@@ -1031,8 +1031,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: _tileItemData
-      Entry: 6
-      Data: 
+      Entry: 9
+      Data: 30
     - Name: OverlappingTileItemData
       Entry: 6
       Data: 
